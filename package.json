@@ -1,0 +1,10 @@
+{
+  "name": "fb-group-scraper",
+  "version": "0.0.1",
+  "dependencies": {
+    "async": "^1.0.0",
+    "console-debug": "^0.2.1",
+    "elasticsearch": "^4.1.0",
+    "request": "^2.55.0"
+  }
+}

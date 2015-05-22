@@ -1,0 +1,130 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  color: #999;
+  position: relative;
+}
+
+a {
+  color: #6F9AC4;
+}
+
+body {
+  background: #1D1F20;
+}
+
+body > header,
+body > footer {
+  width: 100%;
+  background: rgba(0, 0, 0, .5);
+}
+body > header > div:first-child,
+body > footer > div:first-child {
+  overflow: hidden;
+  max-height: 0;
+  transition: all .5s .2s;
+}
+
+body > header.open > div:first-child,
+body > footer.open > div:first-child {
+  max-height: 1000px;
+  transition: all .5s .2s;
+}
+
+body > header {
+  border-bottom: 1px solid #999;
+  position: relative;
+  z-index: 2;
+}
+
+.info {
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+.info footer {
+  text-align: right;
+  padding: 0 3px;
+}
+
+.btn-hide {
+  position: absolute;
+}
+.btn-hide.bottom {
+  bottom: -16px;
+  width: 100%;
+}
+.btn-hide.top {
+  top: -16px;
+  width: 100%;
+}
+.btn-hide > div {
+  width: 60px;
+  height: 16px;
+  background: #999;
+  margin: 0 auto;
+  text-align: center;
+  color: #1D1F20;
+  cursor: pointer;
+}
+.btn-hide.bottom:hover > div {
+  background: linear-gradient(to bottom, rgba(153,153,153,1) 0%,rgba(204,204,204,1) 100%);
+}
+.btn-hide.top:hover > div {
+  background: linear-gradient(to bottom, rgba(204,204,204,1) 0%, rgba(153,153,153,1) 100%);
+}
+.btn-hide.bottom > div {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.btn-hide.top > div {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.btn-hide.bottom > div:before,
+.open .btn-hide.top > div:before {
+  content: '▼';
+}
+.btn-hide.top > div:before,
+.open .btn-hide.bottom > div:before {
+  content: '▲';
+}
+
+body > footer {
+  border-top: 1px solid #999;
+  bottom: 0;
+  position: absolute;
+  z-index: 5;
+}
+
+.source {
+  text-align: center;
+  padding: 0 5px;
+}
+.source h2 {
+  text-align: left;
+  font-size: 12px;
+}
+.source textarea {
+  background: #999;
+  color: #000;
+  width: 100%;
+}
+
+#canvas {
+  width:100%;
+  height : 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+#gui-cont {
+  position: absolute;
+  z-index: 8;
+  right: 0;
+}
