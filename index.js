@@ -15,7 +15,7 @@ var console = new Debug({
 });
 
 var all = [];
-var token = "CAACEdEose0cBAC121mD2UYyxpe8wgumK8nHdbu08rHert9EZCmwRcMmYNWElXdYdHWBYp5FBlbz8gPRPbjlXZCFHQ4v3yDmyOAEyXbgEDGNr6dasCZCAAkMrcJ6pbDmIuGw9CD5OXBQ7Y7ZBFYImuPDISThq5SSn3MxAsBmkT8Hpzyrwln4f0BKIZBJZBdebfUTZBmTR9ChwZBZBjwN3hq4gZA";
+var token = 'CAACEdEose0cBAAqj9d6C87UgYEyeyefvrF6uWT4OIxwUUK6aHRxiQCK2Lf4rJ19EGGGm3Gfvj9UoPJ45YIq880Gr32KvvjON5XAJnq6skVRHAbgk5mPtUYeI9nVXRXbUReMtcVZAiDfvdkMtY0VGRKkoObZA8bvSpVLkVpX1FMJAS2oe8LDRsNLoj2w9CIQGV9Fg7mKGZCPfFl6728J';
 
 var posts = [];
 var comments = [];
@@ -251,6 +251,7 @@ function pushToElastic(callback) {
           events.push({
             date: new Date(activity.time).getTime(),
             author: user.name,
+            user_id: user.id,
             picture: user.picture,
             activity: activity.activity,
             resource_id: activity.resource_id

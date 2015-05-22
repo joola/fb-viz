@@ -9,20 +9,40 @@ var cur
   , df = d3.time.format('%d-%m-%Y')
   ;
 
+var pictures = {};
 function restart() {
   d3.json("data/events.json", function (error, data) {
     if (error) return console.warn(error);
 
-    bh.stop();
-    cur = 0;
-    all = data.length;
-    progress.process = 0;
-    progress.state = 'parsing';
-    bh.start(data, 0, 0, true);
+    progress.state = 'fetching pictures';
+    async.mapSeries(data, function (d, cb) {
+      if (!pictures[d.author]) {
+        d3.uri(d, function (err, data) {
+          pictures[d.author] = data;
+          d.img = data;
+          return cb(null, d);
+        });
+      }
+      else {
+        d.img = pictures[d.author];
+        return cb(null, d);
+      }
+    }, function (err, data) {
+      if (err)
+        throw err;
+
+      bh.stop();
+      cur = 0;
+      all = data.length;
+      progress.process = 0;
+      progress.state = 'parsing';
+      bh.start(data, 0, 0, true);
+    });
   });
 }
 
 bh.setting.drawTrack = true;
+bh.setting.drawParentImg = true;
 bh.setting.asyncParsing = true;
 bh.on('getGroupBy', function (d) {
   return d.date;
@@ -35,13 +55,18 @@ bh.on('getGroupBy', function (d) {
   })
   .on('getChildKey', function (d) {
     return d.resource_id;
-    
   })
   .on('getCategoryKey', function (d) {
     return d.resource_id.replace(/.*?\.(.*)$/, '.$1');
   })
   .on('getParentLabel', function (d) {
     return d.nodeValue;
+  })
+  .on('getParentImage', function (d) {
+    //console.log(pictures[d]);
+    var image = new Image();
+    image.src = pictures[d];
+    return image;
   })
   .on('getChildLabel', function (d) {
     return d.nodeValue.resource_id.replace(/.*\/(.*)$/, "$1");
@@ -137,3 +162,38 @@ d3.selectAll('.btn-hide')
   });
 
 restart();
+
+
+var getImageBase64 = function (url, callback) {
+  // to comment better
+  var xhr = new XMLHttpRequest(url);
+  xhr.open('GET', url, true);
+  xhr.responseType = 'blob';
+  xhr.callback = callback;
+  xhr.onload = function () {
+    var self = this;
+    var blob = this.response;
+
+    var reader = new window.FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = function () {
+      self.callback(null, reader.result);
+    };
+  };
+  xhr.onerror = function () {
+    callback('B64 ERROR', null);
+  };
+  xhr.send();
+};
+
+d3.uri = function (d, callback) {
+  console.log('fetching ','https://graph.facebook.com/v2.3/' + d.user_id + '/picture?redirect=false')
+  d3.json('https://graph.facebook.com/v2.3/' + d.user_id + '/picture?redirect=false', function (err, json) {
+    if (err)
+      return callback(err);
+
+    var url = json.data.url;
+    getImageBase64(url, callback);
+  });
+};
+    
