@@ -267,7 +267,7 @@ function pushToElastic(callback) {
         if (err)
           return callback(err);
 
-        fs.writeFileSync(path.join(__dirname, 'data', 'events.json'), JSON.stringify(events));
+        fs.writeFileSync(path.join(__dirname, 'viz', 'data', 'events.json'), JSON.stringify(events));
 
         return callback(null);
       });

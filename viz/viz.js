@@ -10,7 +10,7 @@ var cur
   ;
 
 function restart() {
-  d3.json("../data/events.json", function (error, data) {
+  d3.json("data/events.json", function (error, data) {
     if (error) return console.warn(error);
 
     bh.stop();
